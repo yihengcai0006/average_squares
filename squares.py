@@ -55,35 +55,45 @@ def convert_numbers(list_of_strings):
 
 import argparse
 
+def read_numbers_from_file(filename):
+    """Read a text file containing one number per line."""
+    numbers = []
+    with open(filename, "r") as f:
+        for line in f:
+            stripped = line.strip()
+            if stripped:
+                numbers.append(float(stripped))
+    return numbers
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Compute average of squares.")
+    parser = argparse.ArgumentParser(description="Compute weighted average of squares.")
     
+    # numbers file
     parser.add_argument(
-        "numbers",
-        nargs="+",
-        help="List of numbers"
+        "file_numbers",
+        help="Text file with one number per line."
     )
 
+    # weights file
     parser.add_argument(
         "--weights",
-        nargs="+",
-        help="Optional list of weights (same length as numbers)"
+        help="Optional text file with one weight per line."
     )
 
     args = parser.parse_args()
 
-    numbers = convert_numbers(args.numbers)
+    # read numbers
+    numbers = read_numbers_from_file(args.file_numbers)
 
+    # read weights if provided
     if args.weights is None:
         weights = None
     else:
-        weights = convert_numbers(args.weights)
+        weights = read_numbers_from_file(args.weights)
 
     result = average_of_squares(numbers, weights)
     print(result)
-
-
-
 
 
 

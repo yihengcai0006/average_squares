@@ -58,18 +58,26 @@ import argparse
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compute average of squares.")
     
-    # add variables to parse
     parser.add_argument(
         "numbers",
-        type=float,
-        nargs="+",            
+        nargs="+",
         help="List of numbers"
+    )
+
+    parser.add_argument(
+        "--weights",
+        nargs="+",
+        help="Optional list of weights (same length as numbers)"
     )
 
     args = parser.parse_args()
 
-    numbers = args.numbers
-    weights = None
+    numbers = convert_numbers(args.numbers)
+
+    if args.weights is None:
+        weights = None
+    else:
+        weights = convert_numbers(args.weights)
 
     result = average_of_squares(numbers, weights)
     print(result)
